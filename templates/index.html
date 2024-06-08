@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de consumo da API do Gemini</title>
+</head>
+<body>
+    <h1>Exemplo de consumo da API do Gemini</h1>
+    <textarea id="texto" rows="5" cols="30"></textarea>
+    <button id="magicButton">Make magic, Gemini!</button>
+    <p id="resultado"></p>
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+    </script>
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        const API_KEY = 'AIzaSyAJ4z7unsnMR2G1vBUHFK3yHEdAIyzN8wY'
+        const genAI = new GoogleGenerativeAI(API_KEY);
+
+        async function run() {
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const prompt = document.getElementById("texto").value;
+            const result = await model.generateContent(prompt);
+            const response = await result.response.text();
+            document.getElementById("resultado").innerText = response;
+        }
+        document.getElementById("magicButton").addEventListener("click", await run);
+    </script>
+</body>
+</html>
